@@ -101,6 +101,16 @@
                     <td><b>@Model.ListProduct.Sum(s => s.value_c).ToString("C0")</b></td>
                 </tr>
                 <tr>
+                    <td></td>
+                    <td>Descuento : </td>
+                    <td> @((Model.ListProduct.Count()*10))</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><b>Total menos descuento</b></td>
+                    <td><br /><b>@((Model.ListProduct.Sum(s => s.value_c)> (Model.ListProduct.Count() * 10) ? Model.ListProduct.Sum(s => s.value_c) - (Model.ListProduct.Count() * 10): Model.ListProduct.Sum(s => s.value_c)).ToString("C0"))</b></td>
+                </tr>
+                <tr>
                     <td><br /></td>
                 </tr>
                 <tr>
@@ -133,7 +143,7 @@
 </div>
 
 <script>
-      function setCartelete(id) {        
+      function setCartelete(id) {
             let _Peticion = new XMLHttpRequest();
             var url = '@Url.Action("CartDelete", "Home")';
           var Contenido = new FormData();

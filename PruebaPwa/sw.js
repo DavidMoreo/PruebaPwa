@@ -3,23 +3,24 @@ const CACHE = "Cache_1";
 
 
 self.addEventListener('fetch', e => {
+    const r = fetch(e.request).then(newResp => {
+        console.log(newResp);
+        cache.put(e.request, newResp);
 
-    e.respondWith(caches.match(e.request))
-        .then(res => {
-            if (res) return res;    
-            return fetch(e.request).then(newResp => {
+    }).catch(r => {
+        return e.respondWith(caches.match(e.request));
+        console.log("offline");
+    }
+    );
 
-                caches.open(CACHE)
-                    .then(cache => {
-                        cache.put(e.request, newResp);
-                    });
-                return newResp.clone();
-            });
-        });
+
+
+
+
 });
 
 self.addEventListener('install', e => {
-    
+
     caches.open(CACHE)
         .then(cache => {
             console.log("Instalado");
@@ -28,15 +29,15 @@ self.addEventListener('install', e => {
                 '/Home/Cart',
                 '/Home/Loading',
                 '/Home/NewProduct',
-                '/Home/Product',                
+                '/Home/Product',
                 '/Controllers/Alert.js',
                 '/Content/bootstrap.css'
-               
+
 
             ]);
         });
 
-  
+
 });
 
 self.addEventListener('activate', e => {
