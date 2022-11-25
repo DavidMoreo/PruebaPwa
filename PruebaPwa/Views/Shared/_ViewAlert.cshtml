@@ -1,0 +1,83 @@
+﻿
+
+
+<style>
+    .ContainerAlertConten {
+        height: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+
+
+    .ContainerAlert {
+        min-width: 300px;
+        min-height: 80px;
+        max-width: 50%;
+        border-radius: 10px;
+        padding: 30px;
+        background-color: white;
+        position: relative;
+        box-shadow: 0px 0px 10px rgb(138 137 137);
+        top: 70px;
+        word-wrap:break-word;
+    }
+
+        .ContainerAlert button {
+            border-radius: 10px;
+            position: absolute;
+            height: 30px;
+            width: 30px;
+            right: 0px;
+            bottom: 1px;
+            background-color: red;
+            border-color: transparent;
+            box-shadow: 0px 0px 5px #2a2828;
+        }
+
+        .ContainerAlert p {
+            color: black;
+            font-family: Arial;            
+            font-size: 1em;
+        }
+
+        .ContainerAlert label {
+            color: black;
+            font-family: Arial;
+            font-weight: bold;
+           
+        }
+
+
+    .FlexContainerAlert {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 14, 0.7);
+        position: fixed;
+        left: auto;
+        right: 0px;
+        top: auto;
+        bottom: 0px;
+        padding: 20px;
+        z-index: 300;
+    }
+
+    .InputText {
+        max-width: 500px;
+    }
+</style>
+
+
+<div class="FlexContainerAlert" id="Alert" style="overflow:auto; display:none;">
+    <div class="ContainerAlertConten">
+        <div class="ContainerAlert">
+            <label id="AlertTitle"></label><br />
+            <p id="AlertText"></p>
+            <button onclick="CloseElemnt()">X</button>
+        </div>
+    </div>
+</div>

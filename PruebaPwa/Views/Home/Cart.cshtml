@@ -1,0 +1,154 @@
+﻿@model PruebaPwa.Models.ModelCart
+@using PruebaPwa.Models
+@{
+    ViewBag.Title = "Cart";
+}
+
+
+
+<style>
+
+    .ContainerItem {
+        box-shadow: 0px 0px 5px gray;
+        border-radius: 10px;
+        padding: 8px;
+        display: flex;
+        margin: 2%;
+        height: 60px;
+    }
+
+        .ContainerItem img {
+            height: 90px;
+            margin-right: 50px;
+        }
+
+        .ContainerItem #ContainerItemText {
+            display: flex;
+            flex-direction: column;
+            right: 0px;
+            top: 0px;
+            justify-items: start;
+            align-items: start;
+            width: 100%;
+        }
+
+        .ContainerItem #ContainerItemButon {
+            display: flex;
+            flex-direction: column;
+            height: 110px;
+        }
+
+            .ContainerItem #ContainerItemButon button {
+                background: red;
+                box-shadow: 0px 0px 6px gray;
+                border-color: transparent;
+                border-radius: 5px;
+                height: 25px;
+                color: white;
+            }
+
+    .Receipt {
+        height: auto;
+        width: 100%;
+        background-color: #E8E8E7;
+        display: flex;
+        box-shadow: 0px 0px 5px gray;
+        border-radius: 10px;
+        padding: 8px;
+        padding-left: 25px;
+        box-shadow: 0px 0px 5px gray;
+        flex-direction: column;
+    }
+
+
+    @@media (max-width: 600px) {
+        .ContainerItem img {
+            height: 120px;
+            width: 120px;
+        }
+    }
+</style>
+
+<h2>Cart</h2>
+
+
+<div class="row mb-2">
+    <div class="col-md-6">
+        <di class="Receipt">
+            <p>Recibo de compra</p>
+            <p>Dirección : @Model.UserView.address</p>
+            <p>Cédula : @Model.UserView.identification</p>
+            <table style=" text-align:start;">
+                <tr>
+                    <td>Nombre</td>
+                    <td align="center">Cantidad</td>
+                    <td>Valor</td>
+                </tr>
+                @foreach (var item in Model.ListProduct)
+                {
+                    <tr>
+                        <td><b>@item.name</b></td>
+                        <td align="center">@item.cantidad_c</td>
+                        <td>@item.value_c.ToString("C0")</td>
+                    </tr>
+                }
+                <tr>
+                    <td><br /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><b>Total</b></td>
+                    <td><b>@Model.ListProduct.Sum(s => s.value_c).ToString("C0")</b></td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                </tr>
+                <tr>
+                    <td align="end" colspan="3">   <button style="background-color: green; color: white; border-color: transparent; border-radius: 5px; height: 32px; box-shadow: 0px 0px 5px 2px #4F857A; ">Guardar compra</button></td>
+                </tr>
+            </table>
+        </di>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div>
+                @foreach (var item in Model.ListProduct)
+                {
+                    <div class="col-md-6">
+                        <div class="ContainerItem">
+                            <div id="ContainerItemText">
+                                <h6>@item.name</h6>
+                                <p>Valor:@item.value_c.ToString("C0")</p>
+                            </div>
+                            <div id="ContainerItemButon">
+                                <button id="@item.Id" onclick="setCartelete(@item.Id)">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+      function setCartelete(id) {        
+            let _Peticion = new XMLHttpRequest();
+            var url = '@Url.Action("CartDelete", "Home")';
+          var Contenido = new FormData();
+          Contenido.append("id",id)
+            _Peticion.open("POST", url);
+            _Peticion.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (this.responseText.includes("Msg")) {
+                        Alert(this.responseText, "");
+                    } else {
+                        Alert(this.responseText, "Reload");
+                    }
+                }
+            }
+        _Peticion.send(Contenido);
+
+    }
+</script>
